@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
+import toast from 'react-hot-toast';
 import { API, setAuthToken } from '../config/api';
 // untuk membuat  reducer, dan action otomatis
 //createEntityAdapter bisa untuk normalisasi data seperti dr list, handle object in array
@@ -11,6 +12,8 @@ const getToken = () => {
   const token = localStorage.getItem('token');
   setAuthToken(token);
 };
+
+let toastId = '';
 
 export const userLogin = createAsyncThunk(
   'user/login',
@@ -77,38 +80,76 @@ const initialState = {
   loading: false,
   isLoggedIn: false,
   user: null,
+  error: false,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   extraReducers: {
+    [userLogin.pending]: (state, action) => {
+      toastId = toast.loading('loading');
+    },
     [userLogin.fulfilled]: (state, action) => {
+      state.loading = false;
       state.isLoggedIn = true;
       state.user = action.payload;
       localStorage.setItem('token', state.user.token);
       setAuthToken(state.user.token);
+      toast.success('Login success', {
+        id: toastId,
+      });
+    },
+    [userLogin.rejected]: (state, action) => {
+      state.error = true;
+      state.loading = false;
+      toast.error('Login Failed, check your email or password', {
+        id: toastId,
+      });
+    },
+
+    [userRegister.pending]: (state, action) => {
+      toastId = toast.loading('loading');
     },
 
     [userRegister.fulfilled]: (state, action) => {
+      toast.success('Register success, please login', {
+        id: toastId,
+      });
       state.isLoggedIn = false;
       state.user = null;
       localStorage.removeItem('token');
+    },
+
+    [userRegister.rejected]: (state, action) => {
+      toast.error('Register Failed, check your email', {
+        id: toastId,
+      });
     },
 
     [userProfile.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload;
     },
+
+    [updateProfile.pending]: (state, action) => {
+      toastId = toast.loading('loading');
+      state.loading = true;
+    },
     [updateProfile.fulfilled]: (state, action) => {
       state.user = action.payload;
       state.loading = false;
+      toast.success('Success update your profile', {
+        id: toastId,
+      });
     },
-    [updateProfile.pending]: (state, action) => {
-      state.loading = true;
+    [updateProfile.rejected]: (state, action) => {
+      toast.error('Cant update your profile', {
+        id: toastId,
+      });
     },
 
-    [updateImage.pending]: (state, action) => {
+    [updateImage.rejected]: (state, action) => {
       state.loading = true;
     },
     [updateImage.fulfilled]: (state, action) => {

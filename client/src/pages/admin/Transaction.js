@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../hoc/Layout';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { Row, Col, Table, Container } from 'react-bootstrap';
 import { API } from '../../config/api';
+import LayoutAdmin from '../../hoc/LayoutAdmin';
 
 const Transaction = () => {
+  const title = 'Transactions';
+  document.title = 'Waysbook | ' + title;
+
   const [transactions, setTransactions] = useState([]);
 
   const getAllTransactions = async () => {
@@ -22,7 +25,7 @@ const Transaction = () => {
   }, []);
 
   return (
-    <Layout>
+    <LayoutAdmin>
       <Container>
         <Row className="justify-content-center">
           <Col className="bg-gray-light p-4 " md={10}>
@@ -94,7 +97,7 @@ const Transaction = () => {
           </Col>
         </Row>
       </Container>
-    </Layout>
+    </LayoutAdmin>
   );
 };
 

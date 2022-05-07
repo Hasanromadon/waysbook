@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import {
   Row,
   Col,
   Container,
-  Button,
-  Image,
   Form,
   Spinner,
   FloatingLabel,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonWaysBook from '../components/ButtonWaysBook';
-import InputFile from '../components/InputFile';
+import InputFileImage from '../components/InputFileImage';
 import Layout from '../hoc/Layout';
 import { updateImage, updateProfile } from '../features/userSlice';
-import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
+  const title = 'Edit Profile';
+  document.title = 'Waysbook | ' + title;
+
   const { user, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       fullname: user.fullname,
@@ -75,7 +74,7 @@ const EditProfile = () => {
                     {loading ? (
                       <Spinner animation="border" />
                     ) : (
-                      <InputFile
+                      <InputFileImage
                         onChange={(e) => handleChangePicture(e)}
                         title="Upload File"
                       />

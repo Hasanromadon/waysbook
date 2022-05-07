@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Button, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import ButtonWaysBook from '../components/ButtonWaysBook';
 import Layout from '../hoc/Layout';
 import { useIndexedDB } from 'react-indexed-db';
@@ -10,6 +10,9 @@ import toast from 'react-hot-toast';
 import toRupiah from '@develoka/angka-rupiah-js';
 
 const Cart = () => {
+  const title = 'Cart';
+  document.title = 'Waysbook | ' + title;
+
   const [cart, setCart] = useState();
   const { user } = useSelector((state) => state.user);
   const { getAll, clear, deleteRecord } = useIndexedDB('cartbook');
@@ -61,9 +64,6 @@ const Cart = () => {
 
     try {
       const response = await API.post('/transactions', data, apiHeader);
-
-      const token = response.data;
-      console.log(token);
 
       window.snap.pay(response.data.payment.token, {
         onSuccess: function (result) {

@@ -16,7 +16,11 @@ const Contact = ({ contacts, onClickContact }) => {
               roundedCircle
               width={45}
               height={45}
-              src={contact?.profile?.image}
+              src={
+                contact?.profile?.image
+                  ? contact?.profile?.image
+                  : '/assets/icons/generic-avatar.png'
+              }
               alt=""
               className="me-2 p-1"
             />

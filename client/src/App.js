@@ -16,6 +16,7 @@ import Transaction from './pages/admin/Transaction';
 import ComplainAdmin from './pages/admin/ComplainAdmin';
 import { Toaster } from 'react-hot-toast';
 import { getTransactions } from './features/transactionSlice';
+import EditBook from './pages/admin/EditBook';
 initDB(DBConfig);
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/admin/addbook" element={<AddBook />} />
+        <Route path="/admin/edit/book/:id" element={<EditBook />} />
         <Route path="/admin/transaction" element={<Transaction />} />
         <Route path="/admin/complain" element={<ComplainAdmin />} />
       </Routes>

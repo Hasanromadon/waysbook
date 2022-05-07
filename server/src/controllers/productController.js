@@ -69,6 +69,7 @@ exports.getProducts = async (req, res) => {
 
     let productsData = rawProductsData.rows.map((item) => {
       item.thumbnail = `${process.env.PATH_FILE}${item.thumbnail}`;
+      item.bookAttachment = `${process.env.PATH_FILE}${item.bookAttachment}`;
       return item;
     });
 
@@ -141,18 +142,28 @@ exports.getProduct = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
   try {
-    console.log('check payload', req.file.path);
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    let files = JSON.parse(JSON.stringify(req.files));
+    const bookresult = await cloudinary.uploader.upload(files.image[0].path, {
       folder: 'waysbook_app',
       use_filename: true,
       unique_filename: false,
     });
-    console.log(('===> cloudynary', result));
-
     const data = req.body;
-    const image = result.public_id;
+    const image = bookresult.public_id;
     data.thumbnail = image;
 
+    const attachBookResult = await cloudinary.uploader.upload(
+      files.bookAttachment[0].path,
+      {
+        folder: 'waysbook_app',
+        use_filename: true,
+        unique_filename: false,
+      }
+    );
+    const attachment = attachBookResult.public_id;
+    data.bookAttachment = attachment;
+
+    //
     // if (req.body.categories) {
     //   req.body.categories = req.body.categories.split(',');
     // }
@@ -192,27 +203,48 @@ exports.updateProduct = async (req, res) => {
   const { id } = req.params;
 
   let data = req.body;
-  const filename = req.file && req.file.filename ? req.file.filename : '';
-  if (filename !== '') {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'waysbook_app',
-      use_filename: true,
-      unique_filename: false,
-    });
-
-    data.thumbnail = result.public_id;
+  if (req.files) {
+    let files = JSON.parse(JSON.stringify(req.files));
+    if (files.image) {
+      if (files?.image[0]?.path) {
+        const bookresult = await cloudinary.uploader.upload(
+          files.image[0].path,
+          {
+            folder: 'waysbook_app',
+            use_filename: true,
+            unique_filename: false,
+          }
+        );
+        const image = bookresult.public_id;
+        data.thumbnail = image;
+      }
+    }
+    if (files?.bookAttachment) {
+      if (files?.bookAttachment[0]?.path) {
+        const attachBookResult = await cloudinary.uploader.upload(
+          files.bookAttachment[0].path,
+          {
+            folder: 'waysbook_app',
+            use_filename: true,
+            unique_filename: false,
+          }
+        );
+        const attachment = attachBookResult.public_id;
+        data.bookAttachment = attachment;
+      }
+    }
   }
 
-  const schema = Joi.object({
-    title: Joi.string().min(5).max(200),
-    desc: Joi.string().min(5).max(1200),
-    price: Joi.number(),
-    image: Joi.string(),
-    categories: Joi.array(),
-    qty: Joi.number(),
-  });
-  const { error } = schema.validate(data);
-  if (error) return handleErrorValidate(error, res);
+  // const schema = Joi.object({
+  //   title: Joi.string().min(5).max(200),
+  //   desc: Joi.string().min(5).max(1200),
+  //   price: Joi.number(),
+  //   image: Joi.string(),
+  //   categories: Joi.array(),
+  //   qty: Joi.number(),
+  // });
+  // const { error } = schema.validate(data);
+  // if (error) return handleErrorValidate(error, res);
 
   try {
     await books.update(req.body, {

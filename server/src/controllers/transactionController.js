@@ -111,6 +111,8 @@ exports.getTransactions = async (req, res) => {
           book_detail: {
             ...book.book_detail,
             thumbnail: process.env.PATH_FILE + book.book_detail.thumbnail,
+            bookAttachment:
+              process.env.PATH_FILE + book.book_detail.bookAttachment,
           },
         })),
       }));

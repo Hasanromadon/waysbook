@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Container, Button, Image } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Row, Col, Container, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import LinkWaysBook from '../components/LinkWaysBook';
 import PaidBookCard from '../components/PaidBookCard';
-import { API } from '../config/api';
 import { transactionSelectors } from '../features/transactionSlice';
 import { userProfile } from '../features/userSlice';
 import Layout from '../hoc/Layout';
 
 const Profile = () => {
+  const title = 'Profile';
+  document.title = 'Waysbook | ' + title;
+
   const { user } = useSelector((state) => state.user);
   const transactions = useSelector(transactionSelectors.selectAll);
 

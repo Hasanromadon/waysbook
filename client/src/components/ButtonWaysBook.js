@@ -14,11 +14,11 @@ const ButtonWaysBook = ({
     <Button
       type={type}
       onClick={onClick}
-      className={`fw-bold ${className}`}
+      className={`fw-bold ${className ? className : ''}`}
       variant={
         outlined
           ? 'button-waysbook-outlined'
-          : 'secondary rounded-1 button-waysbook block'
+          : 'secondary rounded-1 button-waysbook'
       }
       disabled={loading}
     >

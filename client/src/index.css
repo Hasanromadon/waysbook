@@ -79,7 +79,7 @@ overflow-x: scroll;
 }
 
 .bookcard {
-  height: 280px !important;
+  height: 320px !important;
   width: 100%;
 }
 .bookcard em {
@@ -90,7 +90,7 @@ overflow-x: scroll;
 filter: drop-shadow(0px 2px 4px rgba(189, 189, 189, 0.653));
 border-radius: 1px;
 width: 100%;
-height: 280px;
+height: 300px;
 object-fit: cover;
 }
 
@@ -215,7 +215,7 @@ a {
 
 
 
-#file-upload {
+#file-upload, #file-image-upload {
   display: none;
 }
 
@@ -240,9 +240,35 @@ a {
 .messages-container {
   overflow-y: scroll;
   height: 62vh;
-
 }
+
+
+.messages-container::-webkit-scrollbar {
+  width: 10px;
+  background-color:  red !important;
+}
+
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: #cccccc; 
+  height: 10px;
+  border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: #DFDFDF
+}
+
+
 
 .cart-empty {
   height: 40vh;
+}
+
+.image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-top: 8px;
+  border-radius: 10px;
 }

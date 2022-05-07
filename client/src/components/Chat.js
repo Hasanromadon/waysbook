@@ -61,7 +61,7 @@ const Chat = ({ contact, loadMessages, messages, sendMessage, onlineUser }) => {
               <Form.Control
                 onKeyPress={sendMessage}
                 type="text"
-                placeholder="Normal text"
+                placeholder="Write your message"
               />
             </Col>
             <Col md={1}>

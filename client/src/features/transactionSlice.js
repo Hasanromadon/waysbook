@@ -27,11 +27,16 @@ const transactionSlice = createSlice({
       transactionEntity.setAll(state, action.payload); //masukan data kedalam state
     },
   },
+  reducers: {
+    removeTransaction: (state, action) => {
+      transactionEntity.removeAll(state);
+    },
+  },
 });
 
 export const transactionSelectors = transactionEntity.getSelectors(
   (state) => state.transaction
 );
 
-export const { update } = transactionSlice.actions;
+export const { removeTransaction } = transactionSlice.actions;
 export default transactionSlice.reducer;

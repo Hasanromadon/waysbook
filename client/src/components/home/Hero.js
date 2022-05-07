@@ -12,11 +12,6 @@ const Hero = ({ booksList }) => {
           <span>save your high street at the same time</span>
         </h2>
       </Container>
-      {/* <div className="d-flex gap-2 carousel-container">
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </div> */}
       <HeroCarousel />
     </div>
   );

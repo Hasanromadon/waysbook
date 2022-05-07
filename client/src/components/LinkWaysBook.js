@@ -9,11 +9,21 @@ const LinkWaysBook = ({
   iconCart,
   loading,
   to,
+  external,
 }) => {
-  return (
+  return external ? (
+    <a
+      className={`fw-bold btn secondary rounded-1 button-waysbook block text-light ${className}`}
+      href={to}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {children}
+    </a>
+  ) : (
     <Link
       to={to}
-      className={`fw-bold btn secondary rounded-1 button-waysbook block text-light ${className}`}
+      className={`fw-bold btn secondary rounded-1 button-waysbook text-light ${className}`}
       disabled={loading}
     >
       {loading && (

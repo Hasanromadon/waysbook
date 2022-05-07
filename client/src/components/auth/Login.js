@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, FloatingLabel, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import ButtonWaysBook from '../ButtonWaysBook';
+import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { userLogin } from '../../features/userSlice';
 
 const Login = (props) => {
-  const [loading, setLoading] = useState(false);
+  const { user, error, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { email: '', password: '' },
@@ -22,11 +23,9 @@ const Login = (props) => {
     },
   });
 
-  const handleLogin = (formValue) => {
+  const handleLogin = async (formValue) => {
     const { email, password } = formValue;
-    setLoading(true);
-    dispatch(userLogin({ email, password }));
-    setLoading(false);
+    await dispatch(userLogin({ email, password }));
   };
 
   return (

@@ -13,10 +13,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useIndexedDB } from 'react-indexed-db';
+import { removeTransaction } from '../features/transactionSlice';
+import toast from 'react-hot-toast';
 
 const NavbarLayout = ({ setModalShow, setModalRegisterShow }) => {
   const [cart, setCart] = useState();
-  const { getAll } = useIndexedDB('cartbook');
+  const { getAll, clear } = useIndexedDB('cartbook');
 
   useEffect(() => {
     getAll().then((cart) => {
@@ -29,6 +31,9 @@ const NavbarLayout = ({ setModalShow, setModalRegisterShow }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(removeTransaction());
+    clear();
+    toast.success('you are logged out');
     navigate('/');
   };
 
@@ -67,13 +72,13 @@ const NavbarLayout = ({ setModalShow, setModalRegisterShow }) => {
                 <NavDropdown align="end" title={userMenu}>
                   {user.role === 'admin' ? (
                     <>
-                      <NavDropdown.Item as={Link} to="/profile">
+                      <NavDropdown.Item as={Link} to="/admin/addbook">
                         <img
                           width={20}
-                          src="/assets/icons/user.svg"
+                          src="/assets/icons/manage.svg"
                           alt="user"
                         />{' '}
-                        Profile
+                        Add book
                       </NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/admin/complain">
                         <img
@@ -84,14 +89,6 @@ const NavbarLayout = ({ setModalShow, setModalRegisterShow }) => {
                         Complain
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item as={Link} to="/admin/addbook">
-                        <img
-                          width={20}
-                          src="/assets/icons/manage.svg"
-                          alt="user"
-                        />{' '}
-                        ManageBook
-                      </NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="/admin/transaction">
                         <img
                           width={20}
@@ -99,6 +96,15 @@ const NavbarLayout = ({ setModalShow, setModalRegisterShow }) => {
                           alt="user"
                         />{' '}
                         Transaction
+                      </NavDropdown.Item>
+
+                      <NavDropdown.Item as={Link} to="/profile">
+                        <img
+                          width={20}
+                          src="/assets/icons/user.svg"
+                          alt="user"
+                        />{' '}
+                        Profile
                       </NavDropdown.Item>
                     </>
                   ) : (

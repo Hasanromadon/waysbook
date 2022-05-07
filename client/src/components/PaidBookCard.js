@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Col } from 'react-bootstrap';
 import toRupiah from '@develoka/angka-rupiah-js';
 import { Link } from 'react-router-dom';
-import ButtonWaysBook from './ButtonWaysBook';
+import LinkWaysBook from './LinkWaysBook';
 
 const PaidBookCard = ({ book }) => {
   return (
@@ -22,7 +22,9 @@ const PaidBookCard = ({ book }) => {
           <em className="text-secondary">{book.author}</em>
         </small>
         <div className="mt-3">
-          <ButtonWaysBook>Download</ButtonWaysBook>
+          <LinkWaysBook external to={book.bookAttachment}>
+            Download
+          </LinkWaysBook>
         </div>
       </div>
     </>

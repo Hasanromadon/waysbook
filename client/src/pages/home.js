@@ -8,6 +8,9 @@ import { getBooks } from '../features/bookSlice';
 import Layout from '../hoc/Layout';
 
 const Home = () => {
+  const title = 'Home';
+  document.title = 'Waysbook | ' + title;
+
   const dispatch = useDispatch();
 
   useEffect(() => {

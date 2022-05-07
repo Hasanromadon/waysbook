@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Chat from '../../components/Chat';
 import Contact from '../../components/Contact';
-import Layout from '../../hoc/Layout';
 import { io } from 'socket.io-client';
+import LayoutAdmin from '../../hoc/LayoutAdmin';
 
 let socket;
 const ComplainAdmin = () => {
   const title = 'Complain admin';
-  document.title = 'DumbMerch | ' + title;
+  document.title = 'Waysbook | ' + title;
 
   const [contact, setContact] = useState(null);
   const [onlineUser, setOnlineUser] = useState([]);
@@ -91,7 +91,7 @@ const ComplainAdmin = () => {
   console.log('checkonline', onlineUser);
 
   return (
-    <Layout>
+    <LayoutAdmin>
       <Container className="mt-3 mb-5">
         <Row className="g-3">
           <Col md={3}>
@@ -107,7 +107,7 @@ const ComplainAdmin = () => {
           </Col>
         </Row>
       </Container>
-    </Layout>
+    </LayoutAdmin>
   );
 };
 
